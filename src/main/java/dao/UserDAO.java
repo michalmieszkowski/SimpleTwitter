@@ -8,11 +8,11 @@ import java.util.List;
 
 public class UserDAO extends AbstractDAO {
 
-    public void saveUser(User user){
+    public void saveUser(User user) {
         hibernateUtil.save(user);
     }
 
-    public void deleteUser(long userId){
+    public void deleteUser(long userId) {
         hibernateUtil.delete(User.class, userId);
     }
 
@@ -36,7 +36,7 @@ public class UserDAO extends AbstractDAO {
         query.setParameter("login", login);
         query.setParameter("password", password);
         Object singleResult = query.getSingleResult();
-        return ((Long)singleResult > 0) ? true : false;
+        return ((Long) singleResult > 0) ? true : false;
     }
 
     public List<User> getFollowedUser(String login) {
@@ -46,7 +46,7 @@ public class UserDAO extends AbstractDAO {
         return query.setParameter("userId", userId).getResultList();
     }
 
-    public  List<User> getNotFollowedUsers(String login) {
+    public List<User> getNotFollowedUsers(String login) {
         Query query = entityManager.createQuery("select u from User u where u.login != :login");
         query.setParameter("login", login);
         //TODO implement query with left join relation to follows_followed table
@@ -57,12 +57,17 @@ public class UserDAO extends AbstractDAO {
     }
 
     public void follow(String currentUserLogin, String userLoginToFollow) {
-        if(currentUserLogin != userLoginToFollow) {
+        if (currentUserLogin != userLoginToFollow) {
             User currentUser = getUserByLogin(currentUserLogin);
             User userToFollow = getUserByLogin(userLoginToFollow);
             currentUser.getFollows().add(userToFollow);
             saveUser(currentUser);
         }
+    }
+
+    public List<User> getAllUsers() {
+        TypedQuery typedQuery = entityManager.createQuery("SELECT u from User u", User.class);
+        return typedQuery.getResultList();
     }
 
 }
