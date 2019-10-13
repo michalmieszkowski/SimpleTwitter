@@ -65,6 +65,15 @@ public class UserDAO extends AbstractDAO {
         }
     }
 
+    public void stopFollowing(String currentUserLogin, String userLoginToStopFollow) {
+        if (currentUserLogin != userLoginToStopFollow) {
+            User currentUser = getUserByLogin(currentUserLogin);
+            User userToStopFollowing = getUserByLogin(userLoginToStopFollow);
+            currentUser.getFollows().remove(userToStopFollowing);
+            saveUser(currentUser);
+        }
+    }
+
     public List<User> getAllUsers() {
         TypedQuery typedQuery = entityManager.createQuery("SELECT u from User u", User.class);
         return typedQuery.getResultList();

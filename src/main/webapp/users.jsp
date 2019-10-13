@@ -56,7 +56,7 @@
                     <strong class="d-block text-gray-dark">${notFollowedUser.login}</strong>
                     <strong class="d-block text-gray-dark">${notFollowedUser.name}</strong>
                     <strong class="d-block text-gray-dark">
-                        On sparrow since :
+                        On SimpleTwitter since :
                         <fmt:formatDate value="${notFollowedUser.dateOfRegistration}" pattern="yyyy-MM-dd"/> </strong>
                     </br>
                     <a href="follow?userLoginToFollow=${notFollowedUser.login}"><b>Follow</b></a>
