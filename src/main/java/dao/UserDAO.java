@@ -39,7 +39,7 @@ public class UserDAO extends AbstractDAO {
         return ((Long) singleResult > 0) ? true : false;
     }
 
-    public List<User> getFollowedUser(String login) {
+    public List<User> getFollowedUsers(String login) {
         User user = getUserByLogin(login);
         Long userId = user.getId();
         Query query = entityManager.createQuery("select follows from User u where u.id = :userId");
@@ -51,7 +51,7 @@ public class UserDAO extends AbstractDAO {
         query.setParameter("login", login);
         //TODO implement query with left join relation to follows_followed table
         List<User> users = query.getResultList();
-        List<User> followedUsers = getFollowedUser(login);
+        List<User> followedUsers = getFollowedUsers(login);
         users.removeAll(followedUsers);
         return users;
     }

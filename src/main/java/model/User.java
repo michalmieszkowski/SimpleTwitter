@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,13 +29,26 @@ public class User {
     private String password;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-            @JoinTable(name = "follows_followers",
+    @JoinTable(name = "follows_followers",
             joinColumns = {@JoinColumn(name = "follows_id")},
             inverseJoinColumns = {@JoinColumn(name = "followed_id")})
     private Set<User> follows = new HashSet<>();
 
     @ManyToMany(mappedBy = "follows")
     private Set<User> followed = new HashSet<>();
+
+    @Column(name = "date_of_registration")
+    private Date dateOfRegistration;
+
+
+    public Date getDateOfRegistration() {
+        return dateOfRegistration;
+    }
+
+    public void setDateOfRegistration(Date dateOfRegistration) {
+        this.dateOfRegistration = dateOfRegistration;
+    }
+
 
     public User() {
     }
@@ -103,26 +117,13 @@ public class User {
         this.followed = followed;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", follows=" + follows +
-                ", followed=" + followed +
-                '}';
-    }
-
     public static class UserBuilder {
 
         User user = new User();
 
         public UserBuilder() {
-            return;    }
+            return;
+        }
 
         public UserBuilder buildLogin(String login) {
             user.setLogin(login);
@@ -152,6 +153,21 @@ public class User {
         public User buildUser() {
             return this.user;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", follows=" + follows +
+                ", followed=" + followed +
+                ", dateOfRegistration=" + dateOfRegistration +
+                '}';
     }
 }
 
