@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet(name = "FollowServlet", value = "/follow")
 public class FollowServlet extends HttpServlet {
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Override
     public void init() throws ServletException {

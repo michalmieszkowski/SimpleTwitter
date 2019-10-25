@@ -32,11 +32,13 @@ public class UserDAO extends AbstractDAO {
     }
 
     public boolean isUserValid(String login, String password) {
-        Query query = entityManager.createQuery("SELECT count(*) as cnt from User u WHERE u.login = :login and u.password = :password");
-        query.setParameter("login", login);
-        query.setParameter("password", password);
-        Object singleResult = query.getSingleResult();
-        return ((Long) singleResult > 0) ? true : false;
+        User userByLogin = getUserByLogin(login);
+        if(userByLogin.getLogin().equals(login)) {
+            if(userByLogin.getPassword().equals(password)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<User> getFollowedUsers(String login) {
